@@ -75,4 +75,5 @@ do {
   }
   j++;
 } while (j < 2);
+
 console.log(personalMovieDB);
