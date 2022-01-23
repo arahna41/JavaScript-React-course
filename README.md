@@ -7,3 +7,9 @@ Practical tasks for the course JavaScript &amp; React on the platform Udemy (by 
 // Practice 2:
   Conditions and cycles
   
+// Practice 3:
+  Functions
+
+  // Practice 4:
+  Methods and properties for objects, forEach
+
