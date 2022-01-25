@@ -10,6 +10,8 @@ Practical tasks for the course JavaScript &amp; React on the platform Udemy (by 
 // Practice 3:
   Functions
 
-  // Practice 4:
+// Practice 4:
   Methods and properties for objects, forEach
 
+// Actions with elements on the page:
+  A practical part on actions with elements on the page is in project > js > script.js
