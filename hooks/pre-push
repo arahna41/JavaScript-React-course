@@ -20,10 +20,15 @@
 # `git push --delete origin master`
 
 
-protected_branch_1='main'
+protected_branch_1='master'
 protected_branch_2='main'
 
-policy="\n\n[Policy] Never push code directly to the "$protected_branch_1" branch! (Prevented with pre-push hook.)\n\n"
+if [[ $protected_branch_1 ]]; then
+  policy="\n\n[Policy] Never push code directly to the "$protected_branch_1" branch! (Prevented with pre-push hook.)\n\n"
+fi
+if [[ $protected_branch_2 ]]; then
+  policy="\n\n[Policy] Never push code directly to the "$protected_branch_2" branch! (Prevented with pre-push hook.)\n\n"
+fi
 
 current_branch=$(git symbolic-ref HEAD | sed -e 's,.*/\(.*\),\1,')
 
