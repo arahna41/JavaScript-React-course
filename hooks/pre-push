@@ -20,9 +20,10 @@
 # `git push --delete origin master`
 
 
-protected_branch='main'
+protected_branch_1='main'
+protected_branch_2='main'
 
-policy="\n\n[Policy] Never push code directly to the "$protected_branch" branch! (Prevented with pre-push hook.)\n\n"
+policy="\n\n[Policy] Never push code directly to the "$protected_branch_1" branch! (Prevented with pre-push hook.)\n\n"
 
 current_branch=$(git symbolic-ref HEAD | sed -e 's,.*/\(.*\),\1,')
 
@@ -30,27 +31,27 @@ push_command=$(ps -ocommand= -p $PPID)
 
 is_destructive='force|delete|\-f'
 
-will_remove_protected_branch=':'$protected_branch
+will_remove_protected_branch_1=':'$protected_branch_1
 
 do_exit(){
   echo -e $policy
   exit 1
 }
 
-if [[ $push_command =~ $is_destructive ]] && [ $current_branch = $protected_branch ]; then
+if [[ $push_command =~ $is_destructive ]] && [ $current_branch = $protected_branch_1 ]; then
   do_exit
 fi
 
-if [[ $push_command =~ $is_destructive ]] && [[ $push_command =~ $protected_branch ]]; then
+if [[ $push_command =~ $is_destructive ]] && [[ $push_command =~ $protected_branch_1 ]]; then
   do_exit
 fi
 
-if [[ $push_command =~ $will_remove_protected_branch ]]; then
+if [[ $push_command =~ $will_remove_protected_branch_1 ]]; then
   do_exit
 fi
 
 # Prevent ALL pushes to protected_branch
-if [[ $push_command =~ $protected_branch ]] || [ $current_branch = $protected_branch ]; then
+if [[ $push_command =~ $protected_branch_1 ]] || [ $current_branch = $protected_branch_1 ]; then
   do_exit
 fi
 
