@@ -23,10 +23,10 @@
 protected_branch_1='master'
 protected_branch_2='main'
 
-if [[ $protected_branch_1 ]]; then
+if [ $protected_branch_1 ]; then
   policy="\n\n[Policy] Never push code directly to the "$protected_branch_1" branch! (Prevented with pre-push hook.)\n\n"
 fi
-if [[ $protected_branch_2 ]]; then
+if [ $protected_branch_2 ]; then
   policy="\n\n[Policy] Never push code directly to the "$protected_branch_2" branch! (Prevented with pre-push hook.)\n\n"
 fi
 
