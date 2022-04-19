@@ -23,12 +23,7 @@
 protected_branch_1='master'
 protected_branch_2='main'
 
-if [ $protected_branch_1 ]; then
-  policy="\n\n[Policy] Never push code directly to the "$protected_branch_1" branch! (Prevented with pre-push hook.)\n\n"
-fi
-if [ $protected_branch_2 ]; then
-  policy="\n\n[Policy] Never push code directly to the "$protected_branch_2" branch! (Prevented with pre-push hook.)\n\n"
-fi
+policy="\n\n[Policy] Never push code directly to the "$protected_branch_1" and "$protected_branch_2" branch! (Prevented with pre-push hook.)\n\n"
 
 current_branch=$(git symbolic-ref HEAD | sed -e 's,.*/\(.*\),\1,')
 
@@ -37,26 +32,27 @@ push_command=$(ps -ocommand= -p $PPID)
 is_destructive='force|delete|\-f'
 
 will_remove_protected_branch_1=':'$protected_branch_1
+will_remove_protected_branch_2=':'$protected_branch_2
 
 do_exit(){
   echo -e $policy
   exit 1
 }
 
-if [[ $push_command =~ $is_destructive ]] && [ $current_branch = $protected_branch_1 ]; then
+if [[ $push_command =~ $is_destructive ]] && [ $current_branch = $protected_branch_1 ] && [ $current_branch = $protected_branch_2 ]; then
   do_exit
 fi
 
-if [[ $push_command =~ $is_destructive ]] && [[ $push_command =~ $protected_branch_1 ]]; then
+if [[ $push_command =~ $is_destructive ]] && [[ $push_command =~ $protected_branch_1 ]] && [[ $push_command =~ $protected_branch_2 ]]; then
   do_exit
 fi
 
-if [[ $push_command =~ $will_remove_protected_branch_1 ]]; then
+if [[ $push_command =~ $will_remove_protected_branch_1 ]] && [[ $push_command =~ $will_remove_protected_branch_2 ]]; then
   do_exit
 fi
 
 # Prevent ALL pushes to protected_branch
-if [[ $push_command =~ $protected_branch_1 ]] || [ $current_branch = $protected_branch_1 ]; then
+if [[ $push_command =~ $protected_branch_1 ]] || [ $current_branch = $protected_branch_1 ] && [[ $push_command =~ $protected_branch_2 ]] || [ $current_branch = $protected_branch_2 ]; then
   do_exit
 fi
 
