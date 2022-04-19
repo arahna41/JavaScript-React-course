@@ -42,11 +42,11 @@ do_exit(){
   exit 1
 }
 
-if [[ $push_command =~ $is_destructive ]] && [ $current_branch = $protected_branch_1 ] && [ $current_branch = $protected_branch_2 ]; then
+if [[ $push_command =~ $is_destructive ]] && [ $current_branch = $protected_branch_1 ] || [[ $push_command =~ $is_destructive ]] && [ $current_branch = $protected_branch_2 ]; then
   do_exit
 fi
 
-if [[ $push_command =~ $is_destructive ]] && [[ $push_command =~ $protected_branch_1 ]] && [[ $push_command =~ $protected_branch_2 ]]; then
+if [[ $push_command =~ $is_destructive ]] && [[ $push_command =~ $protected_branch_1 ]] || [[ $push_command =~ $is_destructive ]] && [[ $push_command =~ $protected_branch_2 ]]; then
   do_exit
 fi
 
