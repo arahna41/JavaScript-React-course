@@ -12,12 +12,15 @@
 # 2. Set executable permissions, run `chmod +x .git/hooks/pre-push`
 # 3. Or, use `rake hooks:pre_push` to install
 #
-# Try a push to master, you should get a message `*** [Policy] Never push code directly to...`
+# Try a push to master or main, you should get a message `*** [Policy] Never push code directly to...`
 #
 # The commands below will not be allowed...
 # `git push origin master`
+# `git push origin main`
 # `git push --force origin master`
+# `git push --force origin main`
 # `git push --delete origin master`
+# `git push --delete origin main`
 
 
 protected_branch_1='master'
@@ -39,20 +42,20 @@ do_exit(){
   exit 1
 }
 
-if [[ $push_command =~ $is_destructive ]] && [ $current_branch = $protected_branch_1 ] && [ $current_branch = $protected_branch_2 ]; then
+if [[ $push_command =~ $is_destructive ]] && [ $current_branch = $protected_branch_1 ] || [[ $push_command =~ $is_destructive ]] && [ $current_branch = $protected_branch_2 ]; then
   do_exit
 fi
 
-if [[ $push_command =~ $is_destructive ]] && [[ $push_command =~ $protected_branch_1 ]] && [[ $push_command =~ $protected_branch_2 ]]; then
+if [[ $push_command =~ $is_destructive ]] && [[ $push_command =~ $protected_branch_1 ]] || [[ $push_command =~ $is_destructive ]] && [[ $push_command =~ $protected_branch_2 ]]; then
   do_exit
 fi
 
-if [[ $push_command =~ $will_remove_protected_branch_1 ]] && [[ $push_command =~ $will_remove_protected_branch_2 ]]; then
+if [[ $push_command =~ $will_remove_protected_branch_1 ]] || [[ $push_command =~ $will_remove_protected_branch_2 ]]; then
   do_exit
 fi
 
 # Prevent ALL pushes to protected_branch
-if [[ $push_command =~ $protected_branch_1 ]] || [ $current_branch = $protected_branch_1 ] && [[ $push_command =~ $protected_branch_2 ]] || [ $current_branch = $protected_branch_2 ]; then
+if [[ $push_command =~ $protected_branch_1 ]] || [ $current_branch = $protected_branch_1 ] || [[ $push_command =~ $protected_branch_2 ]] || [ $current_branch = $protected_branch_2 ]; then
   do_exit
 fi
 
