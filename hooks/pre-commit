@@ -7,6 +7,14 @@
 #
 # To enable this hook, rename this file to "pre-commit".
 
-$mkdir hooks
-$mv .git/hooks/pre-commit.sample hooks/pre-commit
-$ln -s ../../hooks/pre-commit .git/hooks/
+
+branch=`git symbolic-ref HEAD`
+if [ "$branch" = "refs/heads/main" ]; then
+    echo "Direct commits to the branch main are not allowed"
+    exit 1
+fi
+
+if [ "$branch" = "refs/heads/master" ]; then
+    echo "Direct commits to the branch main are not allowed"
+    exit 1
+fi
