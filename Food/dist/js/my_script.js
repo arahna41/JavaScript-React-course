@@ -217,7 +217,7 @@ window.addEventListener("DOMContentLoaded", () => {
     ".menu .container"
   ).render();
 
-  /* Forms */
+  /* Forms*/
 
   const forms = document.querySelectorAll("form");
 
@@ -243,14 +243,16 @@ window.addEventListener("DOMContentLoaded", () => {
       `;
       form.insertAdjacentElement("afterend", statusMessage);
 
-      const request = new XMLHttpRequest();
+      /* XMLHttpRequest */
+
+      /* const request = new XMLHttpRequest();
       request.open("POST", "server.php");
 
       request.setRequestHeader("Content-type", "application/json");
-      const formData = new FormData(form);
+      const formData = new FormData(form); */
       /* request.send(formData); */ //for only FormData
 
-      const object = {};
+      /* const object = {};
       formData.forEach(function (value, key) {
         object[key] = value;
       });
@@ -269,6 +271,37 @@ window.addEventListener("DOMContentLoaded", () => {
           showThanksModal(message.failure);
         }
       });
+    }); */
+
+      /* Fetch API */
+
+      const formData = new FormData(form);
+
+      const object = {};
+      formData.forEach(function (value, key) {
+        object[key] = value;
+      });
+
+      fetch("server.php", {
+        method: "POST",
+        headers: {
+          "Content-type": "application/json",
+        },
+        /* body: formData, */ // only for formData;
+        body: JSON.stringify(object),
+      })
+        .then((data) => data.text())
+        .then((data) => {
+          console.log(data);
+          showThanksModal(message.success);
+          statusMessage.remove();
+        })
+        .catch(() => {
+          showThanksModal(message.failure);
+        })
+        .finally(() => {
+          form.reset();
+        });
     });
   }
 
