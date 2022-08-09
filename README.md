@@ -24,6 +24,3 @@ Practical tasks for the course JavaScript &amp; React on the platform Udemy (by 
  
  // Practice 9:
  Recursion
-
-// Actions with elements on the page:
-  A practical part on actions with elements on the page is in project > js > script.js
